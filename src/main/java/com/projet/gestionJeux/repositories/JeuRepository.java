@@ -10,6 +10,8 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface JeuRepository extends JpaRepository<Jeu,Integer> {
+
+	List<Jeu> findAll();
 	
 	@Query(value = "DELETE FROM jeu WHERE id_editeur = ?", nativeQuery = true)
 	void deleteByIdEditeur(int idEditeur);
@@ -23,4 +25,5 @@ public interface JeuRepository extends JpaRepository<Jeu,Integer> {
 																													int nbJMax,
 																													int ageMin,
 																													int idEditeur);
+
 }

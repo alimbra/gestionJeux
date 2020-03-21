@@ -37,4 +37,9 @@ public class JeuService {
   public void deleteJeuxByIdEditeur(int idEditeur) {
 	  jeuRepository.deleteByIdEditeur(idEditeur);
   }
+
+
+	public List<Jeu> findAll() {
+		return this.jeuRepository.findAll(); 
+	}
 }
