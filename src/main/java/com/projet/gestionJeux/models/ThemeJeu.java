@@ -8,9 +8,9 @@ import javax.persistence.*;
 @Table(name = "theme_jeu")
 public class ThemeJeu {
 
-  @Column
   @Id
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(columnDefinition = "serial")
   @JsonProperty("id")
   private int id;
 

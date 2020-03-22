@@ -10,7 +10,8 @@ import java.util.List;
 public class NoteJeu {
 
   @Id
-  @Column
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(columnDefinition = "serial")
   @JsonProperty("id")
   private int id;
 
@@ -23,6 +24,7 @@ public class NoteJeu {
   private String nom_testeur;
 
   @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+
   @JoinColumn(name = "id_jeu", referencedColumnName = "id")
   private Jeu jeu;
   
