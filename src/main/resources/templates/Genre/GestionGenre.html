@@ -25,48 +25,50 @@
 <body>
 	<nav class="navbar navbar-expand-md navbar-dark bg-success" th:include="base.html"></nav>
    	<div class="container">
-   		<h1 class="mt-5 mb-5">Gestion des jeux</h1></button>		
-    	<table class="table table-bordered table-hover" id="listeJeux">
+   		<h1 class="mt-5 mb-5">Gestion des genres</h1></button>
+   		<form action="/gestion-jeux/ajout-genre" method="post">
+	   		<a class="btn btn-success mb-3 text-white" data-toggle="modal" data-target="#addKindModalScrollable">Ajout d'un genre</a>
+			<div class="modal fade" id="addKindModalScrollable" tabindex="-1" role="dialog" aria-labelledby="addKindModalScrollableTitle" aria-hidden="true">
+			  <div class="modal-dialog modal-dialog-scrollable" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="addKindModalScrollableTitle">Ajout d'un genre</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+					  <div class="form-group">
+					    <label for="addKind_nom">Nom</label>
+					    <input type="text" class="form-control" id="addKind_nom" name="nom">
+					    <small id="addKind_nom" class="form-text text-muted">Ce nom doit être unique.</small>
+					  </div>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+			        <button type="submit" class="btn btn-success">Enregistrer</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>		
+		</form>	
+    	<table class="table table-bordered table-hover" id="listeGenres">
 		  <thead class="bg-light">
 		    <tr>
-		      <th scope="col">Nom jeu</th>
-		      <th scope="col">Type</th>
 		      <th scope="col">Genre</th>
-		      <th scope="col">Thème</th>
-		      <th scope="col">Nombre joueurs minimum</th>
-		      <th scope="col">Nombre joueurs maximum</th>
-		      <th scope="col">Age minimum conseillé</th>
-		      <th scope="col">Editeur</th>
-		      <th scope="col">Note</th>
 		      <th scope="col">Actions</th>
 		    </tr>
 		  </thead>
 		  <tfoot>
 		    <tr>
-		      <th scope="col">Nom jeu</th>
-		      <th scope="col">Type</th>
 		      <th scope="col">Genre</th>
-		      <th scope="col">Thème</th>
-		      <th scope="col">Nombre joueurs minimum</th>
-		      <th scope="col">Nombre joueurs maximum</th>
-		      <th scope="col">Age minimum conseillé</th>
-		      <th scope="col">Editeur</th>
-		      <th scope="col">Note</th>
 		      <th scope="col">Actions</th>
 		    </tr>
 		  </tfoot>
 		  <tbody>
-		    <tr th:each="jeu: ${jeux}">
-		      <td th:text="${jeu.nom_jeu}"></td>
-		      <td></td>
-		      <td></td>
-		      <td></td>
-		      <td th:text="${jeu.nombre_joueurs_minimum}"></td>
-		      <td th:text="${jeu.nombre_joueurs_maximum}"></td>
-		      <td th:text="${jeu.age_minimum}"></td>
-		      <td ></td>
-		      <td th:text="${jeu.noteJeu != null} ? ${jeu.noteJeu.note} : ''" ></td>
-		      <td ></td>
+		    <tr th:each="genre: ${genres}">
+		      <td th:text="${genre.nom_genre}"></td>
+		      <td class="text-center"><i class="fas fa-edit text-success"></i></td>
 		    </tr>
 		  </tbody>
 		</table>
@@ -77,7 +79,7 @@
 	<script>
 	  	$(document).ready(function() {
 	  		
-	  		$('#listeJeux tfoot th').each( function () {
+	  		$('#listeGenres tfoot th').each( function () {
 	  	        var title = $(this).text();
 	  	        title = title.trim(); 
 	  	        
@@ -88,15 +90,15 @@
 	 
 	  	    });
 	  		
-		    var table = $('#listeJeux').DataTable( {
+		    var table = $('#listeGenres').DataTable( {
 		    	dom: 'Bfltrip', 
 		         buttons: [ { extend: 'pageLength' }],
 		    	"language": {
-		            "lengthMenu": "Affichage _MENU_ jeux par page",
+		            "lengthMenu": "Affichage _MENU_ genres par page",
 		            "zeroRecords": "Aucune donnée trouvée - désolé",
 		            "info": "Pages _PAGE_ of _PAGES_",
 		            "infoEmpty": "Aucune données de disponible",
-		            "infoFiltered": "(Filté de _MAX_ total jeux)", 
+		            "infoFiltered": "(Filté de _MAX_ total genres)", 
 		            "sSearch":         "Rechercher&nbsp;:",
 		        }
 		    } );

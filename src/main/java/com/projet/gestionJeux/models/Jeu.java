@@ -44,6 +44,9 @@ public class Jeu {
   @Column
   @JsonProperty("nombre_joueurs_maximum")
   private int nombre_joueurs_maximum;
+  
+  @OneToOne(fetch = FetchType.EAGER, mappedBy = "jeu")
+  private NoteJeu noteJeu;
 
   public void setId(int id) {
     this.id = id;
@@ -93,6 +96,14 @@ public class Jeu {
     return typeJeu;
   }
 
+  public NoteJeu getNoteJeu() {
+	return noteJeu;
+	}
+	
+	public void setNoteJeu(NoteJeu noteJeu) {
+		this.noteJeu = noteJeu;
+	}
+
   public GenreJeu getGenreJeu() {
     return genreJeu;
   }
@@ -116,4 +127,6 @@ public class Jeu {
   public int getNombre_joueurs_maximum() {
     return nombre_joueurs_maximum;
   }
+  
+  
 }

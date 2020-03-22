@@ -9,6 +9,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import com.projet.gestionJeux.models.Jeu;
+import com.projet.gestionJeux.models.NoteJeu;
 import com.projet.gestionJeux.services.JeuService;
 
 @Controller
@@ -36,6 +37,9 @@ public class AccueilController {
 			jeu.setNom_jeu("Call of "+ i);
 			jeu.setNombre_joueurs_maximum(1+i);
 			jeu.setNombre_joueurs_minimum(1);
+
+			NoteJeu noteJeu = new NoteJeu(5+i, "M. X"+i); 
+			jeu.setNoteJeu(noteJeu);
 			jeux.add(jeu); 
 		}
 		
