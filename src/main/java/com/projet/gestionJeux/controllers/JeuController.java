@@ -37,7 +37,7 @@ public class JeuController {
 	 */
 	@DeleteMapping("/genres")
 	public void supprimerGenre(int idEditeur) {
-		this.jeuService.deleteJeuxByIdEditeur(idEditeur);
+		//this.jeuService.deleteJeuxByIdEditeur(idEditeur);
 	}
 	
 }

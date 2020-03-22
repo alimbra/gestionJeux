@@ -36,9 +36,9 @@ public class JeuService {
   /**
    * Supprimer les jeux associés à un éditeur
    */
-  public void deleteJeuxByIdEditeur(int idEditeur) {
+  /*public void deleteJeuxByIdEditeur(int idEditeur) {
 	  jeuRepository.deleteByIdEditeur(idEditeur);
-  }
+  }*/
 
 
   public Jeu findById(int id){
