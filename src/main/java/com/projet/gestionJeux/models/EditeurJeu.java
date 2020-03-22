@@ -38,5 +38,4 @@ public class EditeurJeu {
 		this.nom_editeur = nom_editeur;
 	}
 
-	
 }

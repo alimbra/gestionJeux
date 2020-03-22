@@ -23,15 +23,12 @@ public class NoteJeu {
   @JsonProperty("nom_testeur")
   private String nom_testeur;
 
-  @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
 
-  @JoinColumn(name = "id_jeu", referencedColumnName = "id")
+  @ManyToOne(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+  @JoinColumn(name = "id_jeu", nullable = false)
   private Jeu jeu;
-  
-  public NoteJeu(int note, String nom_testeur) {
-	  this.note = note; 
-	  this.nom_testeur = nom_testeur;
-  }
+
+
 
   public int getId() {
     return id;

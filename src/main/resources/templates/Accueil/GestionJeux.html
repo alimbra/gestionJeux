@@ -25,8 +25,82 @@
 <body>
 	<nav class="navbar navbar-expand-md navbar-dark bg-success" th:include="base.html"></nav>
    	<div class="container">
-   		<h1 class="mt-5 mb-5">Gestion des jeux</h1></button>		
-    	<table class="table table-bordered table-hover" id="listeJeux">
+   		<h1 class="mt-5 mb-5">Gestion des jeux</h1></button>
+
+		<form action="/acceuil/ajout-jeu" method="post">
+			<a class="btn btn-success mb-3 text-white" data-toggle="modal" data-target="#addKindModalScrollable">Ajout d'un jeu</a>
+			<div class="modal fade" id="addKindModalScrollable" tabindex="-1" role="dialog" aria-labelledby="addKindModalScrollableTitle" aria-hidden="true">
+				<div class="modal-dialog modal-dialog-scrollable" role="document">
+					<div class="modal-content">
+						<div class="modal-header">
+							<h5 class="modal-title" id="addKindModalScrollableTitle">Ajout d'un jeu</h5>
+							<button type="button" class="close" data-dismiss="modal" aria-label="Close">
+								<span aria-hidden="true">&times;</span>
+							</button>
+						</div>
+						<div class="modal-body">
+							<div class="form-group">
+								<label for="addKind_nom">Nom</label>
+								<input type="text" class="form-control" id="addKind_nom" name="nom" required>
+								<small id="addKind_nom" class="form-text text-muted">Ce champ est obligatoire et doit être unique</small>
+							</div>
+							<div class="form-group">
+								<label for="addKind_nom">Type</label>
+								<select class="form-control" name="type" >
+									<option th:each="typeJeu: ${typeJeux}" th:value="${typeJeu.id}" th:text="${typeJeu.nom_type}"></option>
+								</select>
+								<small id="addKind_type" class="form-text text-muted">Ce champ est obligatoire et doit être unique</small>
+							</div>
+							<div class="form-group">
+								<label for="addKind_nom">Genre</label>
+								<select class="form-control" name="genre" >
+									<option th:each="genreJeu: ${genreJeux}" th:value="${genreJeu.id}" th:text="${genreJeu.nom_genre}"></option>
+								</select>
+								<small id="addKind_genre" class="form-text text-muted">Ce champ est obligatoire et doit être unique</small>
+							</div>
+							<div class="form-group">
+								<label for="addKind_nom">Theme</label>
+								<select class="form-control" name="theme"  >
+									<option th:each="themeJeu: ${themeJeux}" th:value="${themeJeu.id}" th:text="${themeJeu.nom_theme}"></option>
+								</select>
+								<small id="addKind_theme" class="form-text text-muted">Ce champ est obligatoire et doit être unique</small>
+							</div>
+
+							<div class="form-group">
+								<label for="addKind_nom">Editeur</label>
+								<select class="form-control" name="editeur"  >
+									<option th:each="editeurJeu: ${editeurJeux}"  th:value="${editeurJeu.id}" th:text="${editeurJeu.nom_editeur}"></option>
+								</select>
+								<small id="addKind_editeur" class="form-text text-muted">Ce champ est obligatoire et doit être unique</small>
+							</div>
+
+							<div class="form-group">
+								<label for="addKind_nom">Age min </label>
+								<input type="number" class="form-control" id="addKind_nbmin" name="agemin" min="0" required>
+								<small id="addKind_nbmin" class="form-text text-muted">Ce champ est obligatoire et doit être unique</small>
+							</div>
+
+							<div class="form-group">
+								<label for="addKind_nom">NB min de joueur </label>
+								<input type="number" class="form-control" id="addKind_nbmin" name="nbmin" min="0" required>
+								<small id="addKind_nbmin" class="form-text text-muted">Ce champ est obligatoire et doit être unique</small>
+							</div>
+							<div class="form-group">
+								<label for="addKind_nom">NB max de joueur </label>
+								<input type="number" class="form-control" id="addKind_nbmax" name="nbmax" min="0" required>
+								<small id="addKind_nbmax" class="form-text text-muted">Ce champ est obligatoire et doit être unique</small>
+							</div>
+						</div>
+						<div class="modal-footer">
+							<button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+							<button type="submit" class="btn btn-success">Enregistrer</button>
+						</div>
+					</div>
+				</div>
+			</div>
+		</form>
+
+		<table class="table table-bordered table-hover" id="listeJeux">
 		  <thead class="bg-light">
 		    <tr>
 		      <th scope="col">Nom jeu</th>
@@ -58,15 +132,107 @@
 		  <tbody>
 		    <tr th:each="jeu: ${jeux}">
 		      <td th:text="${jeu.nom_jeu}"></td>
-		      <td></td>
-		      <td></td>
-		      <td></td>
+		      <td th:text="${jeu.getTypeJeu().getNom_type()}"></td>
+		      <td th:text="${jeu.getGenreJeu().getNom_genre()}"></td>
+			  <td th:text="${jeu.getThemeJeu().getNom_theme()}"></td>
 		      <td th:text="${jeu.nombre_joueurs_minimum}"></td>
 		      <td th:text="${jeu.nombre_joueurs_maximum}"></td>
 		      <td th:text="${jeu.age_minimum}"></td>
-		      <td ></td>
-		      <td th:text="${jeu.noteJeu != null} ? ${jeu.noteJeu.note} : ''" ></td>
-		      <td ></td>
+			  <td th:text="${jeu.getEditeurJeu().getNom_editeur()}"></td>
+			  <td ></td>
+
+				<!-- <td th:text="${jeu.noteJeu != null} ? ${jeu.noteJeu.note} : ''" ></td>-->
+		      <td>
+				  <form action="/acceuil/modifie-jeu" method="post">
+					  <a class="text-success" href="#" data-toggle="modal" th:data-target="'#'+editKind+${jeu.id}">
+						  <i class="fas fa-edit text-success"></i></a>
+					  <a class="text-danger deleteJeu" th:href="@{/acceuil/supprimerJeu/{id}(id=${jeu.id})}" >
+						  <i class="fas fa-trash-alt text-danger"></i>
+					  </a>
+
+
+					  <div class="modal fade" th:id="editKind+${jeu.id}" tabindex="-1" role="dialog" th:aria-labelledby="editKind+${jeu.id}"
+						   aria-hidden="true">
+						  <div class="modal-dialog modal-dialog-scrollable" role="document">
+							  <div class="modal-content">
+								  <div class="modal-header">
+									  <h5 class="modal-title" th:id="editKindLabel+${jeu.id}">Modification d'un jeu</h5>
+									  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+										  <span aria-hidden="true">&times;</span>
+									  </button>
+								  </div>
+								  <div class="modal-body">
+									  <div class="form-group d-none">
+										  <label for="editKind_id">id</label>
+										  <input type="number" class="form-control" name="jeuId" th:value="${jeu.getId()}" required>
+									  </div>
+
+									  <div class="form-group">
+										  <label for="editKind_nom">Nom</label>
+										  <input type="text" class="form-control" id="editKind_nom" th:value="${jeu.getNom_jeu()}" name="nom" required>
+										  <small id="editKind_nom" class="form-text text-muted">Ce champ est obligatoire et doit être unique</small>
+									  </div>
+									  <div class="form-group">
+										  <label for="editKind_type">Type</label>
+										  <select class="form-control" id="editKind_type" name="type" th:value="${jeu.getTypeJeu().getId()}" >
+											  <option th:each="typeJeu: ${typeJeux}" th:value="${typeJeu.id}" th:text="${typeJeu.nom_type}"></option>
+										  </select>
+										  <small id="editKind_type" class="form-text text-muted">Ce champ est obligatoire et doit être unique</small>
+									  </div>
+									  <div class="form-group">
+										  <label for="editKind_genre">Genre</label>
+										  <select class="form-control" name="genre" id="editKind_genre" th:value="${jeu.getGenreJeu().getId()}" >
+											  <option th:each="genreJeu: ${genreJeux}" th:value="${genreJeu.id}" th:text="${genreJeu.nom_genre}"></option>
+										  </select>
+										  <small id="editKind_genre" class="form-text text-muted">Ce champ est obligatoire et doit être unique</small>
+									  </div>
+									  <div class="form-group">
+										  <label for="addKind_nom">Theme</label>
+										  <select class="form-control" name="theme" th:value="${jeu.getThemeJeu().getId()}" >
+											  <option th:each="themeJeu: ${themeJeux}" th:value="${themeJeu.id}" th:text="${themeJeu.nom_theme}"></option>
+										  </select>
+										  <small id="editKind_theme" class="form-text text-muted">Ce champ est obligatoire et doit être unique</small>
+									  </div>
+
+									  <div class="form-group">
+										  <label for="addKind_nom">Editeur</label>
+										  <select class="form-control" name="editeur" th:value="${jeu.getEditeurJeu().getId()}" >
+											  <option th:each="editeurJeu: ${editeurJeux}"  th:value="${editeurJeu.id}" th:text="${editeurJeu.nom_editeur}"></option>
+										  </select>
+										  <small id="editKind_editeur" class="form-text text-muted">Ce champ est obligatoire et doit être unique</small>
+									  </div>
+
+									  <div class="form-group">
+										  <label for="editKind_nom">Age min </label>
+										  <input type="number" class="form-control" id="editKind_nbmin" name="agemin" min="0"
+												 th:value="${jeu.getAge_minimum()}" required>
+										  <small id="editKind_agemin" class="form-text text-muted">Ce champ est obligatoire et doit être unique</small>
+									  </div>
+
+									  <div class="form-group">
+										  <label for="editKind_nom">NB min de joueur </label>
+										  <input type="number" class="form-control" id="editKind_nbmin" name="nbmin" min="0"
+												 th:value="${jeu.getNombre_joueurs_minimum()}"
+												 required>
+										  <small id="editKind_nbmin" class="form-text text-muted">Ce champ est obligatoire et doit être unique</small>
+									  </div>
+									  <div class="form-group">
+										  <label for="editKind_nom">NB max de joueur </label>
+										  <input type="number" class="form-control" id="editKind_nbmax" name="nbmax" min="0"
+												 th:value="${jeu.getNombre_joueurs_maximum()}" required>
+										  <small id="addKind_nbmax" class="form-text text-muted">Ce champ est obligatoire et doit être unique</small>
+									  </div>
+								  </div>
+								  <div class="modal-footer">
+									  <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+									  <button type="submit" class="btn btn-success">Enregistrer</button>
+								  </div>
+							  </div>
+						  </div>
+					  </div>
+				  </form>
+
+			  </td>
 		    </tr>
 		  </tbody>
 		</table>
