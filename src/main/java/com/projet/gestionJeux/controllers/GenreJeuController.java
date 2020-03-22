@@ -2,6 +2,8 @@ package com.projet.gestionJeux.controllers;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.projet.gestionJeux.models.GenreJeu;
 import com.projet.gestionJeux.services.GenreJeuService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,10 +12,9 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.servlet.view.RedirectView;
 
-//@RestController
 @Controller
-//@RequestMapping("genres")
 public class GenreJeuController {
 
 	@Autowired
@@ -24,20 +25,29 @@ public class GenreJeuController {
 	 * La liste des genres
 	 * @return List<GenreJeu>
 	 */
-	@GetMapping("/test")
-	public /*List<GenreJeu>*/ String getGenreJeux( ModelMap model) {
-			//Iterable<GenreJeu> genreJeux = genreJeuService.getGenreJeux();
-			//model.put("genreListe", genreJeux);
-			return "genre-jeux";
-			//return genreJeuService.getGenreJeux();
+	@GetMapping("/gestion-jeux/genres")
+	public String getGenreJeux( ModelMap model) {
+			List<GenreJeu> genres = genreJeuService.getGenreJeux();
+			model.put("genres", genres);
+			return "Genre/GestionGenre";
 	}
 	
 	/**
+	 * c'est pas propre ce que je fais ici
 	 * Créer un genre
 	 */
-	@PostMapping("/Ajoutgenre")
-	public void creerOuModifierGenre(GenreJeu genreJeu) {
-		this.genreJeuService.saveOrUpdate(genreJeu);
+	@PostMapping("/gestion-jeux/ajout-genre")
+	public String creerOuModifierGenre(HttpServletRequest request, ModelMap model) {
+		String genreNom = (String) request.getParameter("nom");
+		System.out.println(genreNom);
+		GenreJeu genre = new GenreJeu();
+		genre.setNom_genre(genreNom);
+		this.genreJeuService.saveOrUpdate(genre);
+		
+		List<GenreJeu> genres = genreJeuService.getGenreJeux();
+		model.put("genres", genres);
+		return "Genre/GestionGenre";
+		 
 	}
 	
 	/**
