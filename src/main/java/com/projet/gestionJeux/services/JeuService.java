@@ -202,4 +202,9 @@ public class JeuService {
   public void deleteJeuById(int id) {
     jeuRepository.deleteById(id);
   }
+
+
+   public boolean existeJeu(int id) {
+	   return this.jeuRepository.existsById(id);
+   }
 }
