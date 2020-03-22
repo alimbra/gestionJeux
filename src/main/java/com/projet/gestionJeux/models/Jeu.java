@@ -255,7 +255,6 @@ public class Jeu {
       numerateur += noteJeu.getNote();
       denominateur += 2;
       List<NoteJeu> newlI1 = new ArrayList<NoteJeu>();
-      newlI1.add(noteJeux.get(noteJeux.size()-1));
       if (theme == "sciencefiction" && verifieNote( noteJeu,"Didier Loyal","<=",9)){
         ++numerateur;
         llI = 2;
@@ -276,7 +275,11 @@ public class Jeu {
       ) {
         numerateur = numerateur + 1 / 2;
       }
-      System.arraycopy(noteJeux, 2, newlI1, 0, noteJeux.size()-1);
+      for (int i = 1; i < noteJeux.size(); i++) {
+        newlI1.add(noteJeux.get(i));
+      }
+//      System.arraycopy(noteJeux, 1, newlI1, 0, noteJeux.size()-1);
+
       return calculfinal(jeu, numerateur, denominateur, newlI1);
     }
     if (noteJeux.size() == 0) {
