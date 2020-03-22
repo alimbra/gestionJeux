@@ -7,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class EditeurJeuService {
@@ -31,12 +30,8 @@ public class EditeurJeuService {
    * @param id  de l´editeur.
    * @return une entite de type EditeurJeu.
    */
-  public EditeurJeu getEditeurById(int id) {
-    Optional<EditeurJeu> optionalEditeur = editeurJeuRepository.findById(id);
-    if (optionalEditeur.isPresent()) {
-      return optionalEditeur.get();
-    }
-    return null;
+  public EditeurJeu findById(int editeurId) {
+		return this.editeurJeuRepository.findById(editeurId); 	
   }
 
   /**

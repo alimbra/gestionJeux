@@ -1,5 +1,6 @@
 package com.projet.gestionJeux.services;
 
+import com.projet.gestionJeux.models.GenreJeu;
 import com.projet.gestionJeux.models.TypeJeu;
 import com.projet.gestionJeux.repositories.TypeJeuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,13 +31,10 @@ public class TypeJeuService {
    * @param id  de Type jeu.
    * @return une entite de type TypeJeu.
    */
-  public TypeJeu getTypeById(int id) {
-    Optional<TypeJeu> optionalTypeJeu = typeJeuRepository.findById(id);
-    if (optionalTypeJeu.isPresent()) {
-      return optionalTypeJeu.get();
-    }
-    return null;
-  }
+  	public TypeJeu findById(int typeId) {
+		return this.typeJeuRepository.findById(typeId); 	
+	}
+
 
   /**
    * Sauvegarder ou mettre à jour un typeJeu.

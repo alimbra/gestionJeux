@@ -1,5 +1,6 @@
 package com.projet.gestionJeux.services;
 
+import com.projet.gestionJeux.models.GenreJeu;
 import com.projet.gestionJeux.models.ThemeJeu;
 import com.projet.gestionJeux.repositories.ThemeJeuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -31,13 +32,10 @@ public class ThemeJeuService {
    * @param id  de theme jeu.
    * @return une entite de type ThemeJeu.
    */
-  public ThemeJeu getThemeById(int id) {
-    Optional<ThemeJeu> optionalThemeJeu = themeJeuRepository.findById(id);
-    if (optionalThemeJeu.isPresent()) {
-      return optionalThemeJeu.get();
-    }
-    return null;
+  public ThemeJeu findById(int themeId) {
+		return this.themeJeuRepository.findById(themeId); 	
   }
+
 
   /**
    * Sauvegarder ou mettre à jour un themeJeu.

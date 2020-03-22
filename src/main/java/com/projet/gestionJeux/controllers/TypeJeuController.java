@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.projet.gestionJeux.models.GenreJeu;
 import com.projet.gestionJeux.models.TypeJeu;
 import com.projet.gestionJeux.services.TypeJeuService;
 import org.springframework.stereotype.Controller;
@@ -45,6 +46,23 @@ public class TypeJeuController {
 		TypeJeu type = new TypeJeu();
 		type.setNom_type(typeNom);
 		this.typeJeuService.saveOrUpdate(type);
+		
+		List<TypeJeu> types = typeJeuService.getTypeJeux();
+		model.put("types", types);
+		return "Type/GestionType";
+		 
+	}
+	
+	@PostMapping("/gestion-jeux/edit-type")
+	public String editType(HttpServletRequest request, ModelMap model) {
+		String type_id = request.getParameter("editKind_id");
+		String typeNom = (String) request.getParameter("nom");
+		System.out.println(typeNom);
+		int typeId = Integer.parseInt(type_id);
+		TypeJeu type = this.typeJeuService.findById(typeId);
+		type.setNom_type(typeNom); 
+		this.typeJeuService.saveOrUpdate(type);
+		
 		
 		List<TypeJeu> types = typeJeuService.getTypeJeux();
 		model.put("types", types);

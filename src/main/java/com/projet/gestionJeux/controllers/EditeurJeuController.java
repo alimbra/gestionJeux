@@ -53,6 +53,23 @@ public class EditeurJeuController {
 		 
 	}
 	
+	@PostMapping("/gestion-jeux/edit-editeur")
+	public String editEditeur(HttpServletRequest request, ModelMap model) {
+		String editeur_id = request.getParameter("editKind_id");
+		String editeurNom = (String) request.getParameter("nom");
+		System.out.println(editeurNom);
+		int editeurId = Integer.parseInt(editeur_id);
+		EditeurJeu editeur = this.editeurJeuService.findById(editeurId);
+		editeur.setNom_editeur(editeurNom); 
+		this.editeurJeuService.saveOrUpdate(editeur);
+		
+		
+		List<EditeurJeu> editeurs = editeurJeuService.getEditeurJeux();
+		model.put("editeurs", editeurs);
+		return "Editeur/GestionEditeur";
+		 
+	}
+	
 	/**
 	 * Supprimer un éditeur
 	 * Un éditeur supprimé, supprimera tous les jeux associés à ce éditeur

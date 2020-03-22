@@ -4,6 +4,7 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
+import com.projet.gestionJeux.models.GenreJeu;
 import com.projet.gestionJeux.models.ThemeJeu;
 import com.projet.gestionJeux.services.ThemeJeuService;
 import org.springframework.stereotype.Controller;
@@ -44,6 +45,23 @@ public class ThemeJeuController {
 		ThemeJeu theme = new ThemeJeu();
 		theme.setNom_theme(themeNom);
 		this.themeJeuService.saveOrUpdate(theme);
+		
+		List<ThemeJeu> themes = themeJeuService.getThemeJeux();
+		model.put("themes", themes);
+		return "Theme/GestionTheme";
+		 
+	}
+	
+	@PostMapping("/gestion-jeux/edit-theme")
+	public String editTheme(HttpServletRequest request, ModelMap model) {
+		String theme_id = request.getParameter("editKind_id");
+		String themeNom = (String) request.getParameter("nom");
+		System.out.println(themeNom);
+		int themeId = Integer.parseInt(theme_id);
+		ThemeJeu theme = this.themeJeuService.findById(themeId);
+		theme.setNom_theme(themeNom); 
+		this.themeJeuService.saveOrUpdate(theme);
+		
 		
 		List<ThemeJeu> themes = themeJeuService.getThemeJeux();
 		model.put("themes", themes);

@@ -40,8 +40,8 @@
 			      <div class="modal-body">
 					  <div class="form-group">
 					    <label for="addKind_nom">Nom</label>
-					    <input type="text" class="form-control" id="addKind_nom" name="nom" required>
-					    <small id="addKind_nom" class="form-text text-muted">Ce nom doit être unique.</small>
+					    <input type="text" class="form-control" id="addKind_nom" name="nom" required> 
+					    <small id="addKind_nom" class="form-text text-muted">Ce champ est obligatoire et doit être unique</small>
 					  </div>
 			      </div>
 			      <div class="modal-footer">
@@ -68,7 +68,38 @@
 		  <tbody>
 		    <tr th:each="type: ${types}">
 		      <td th:text="${type.nom_type}"></td>
-		      <td class="text-center"><i class="fas fa-edit text-success"></i></td>
+		      <td>
+		      	<form action="/gestion-jeux/edit-type" method="post">
+			   		<a class="text-success" href="#" data-toggle="modal" th:data-target="'#'+editKind+${type.id}"> <i class="fas fa-edit text-success"></i></a>
+					<div class="modal fade" th:id="editKind+${type.id}" tabindex="-1" role="dialog" th:aria-labelledby="editKind+${type.id}" aria-hidden="true">
+					  <div class="modal-dialog modal-dialog-scrollable" role="document">
+					    <div class="modal-content">
+					      <div class="modal-header">
+					        <h5 class="modal-title" th:id="editKindLabel+${type.id}">Modification d'un type</h5>
+					        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+					          <span aria-hidden="true">&times;</span>
+					        </button>
+					      </div>
+					      <div class="modal-body">
+					      	 <div class="form-group d-none">
+							    <label for="editKind_id">id</label>
+							    <input type="number" class="form-control" name="editKind_id" th:value="${type.id}" required> 
+							  </div>
+							  <div class="form-group">
+							    <label for="editKind_nom">Nom</label>
+							    <input type="text" class="form-control" name="nom" th:value="${type.nom_type}" required> 
+							    <small id="addKind_nom" class="form-text text-muted">Ce champ est obligatoire et doit être unique</small>
+							  </div>
+					      </div>
+					      <div class="modal-footer">
+					        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+					        <button type="submit" class="btn btn-success">Enregistrer</button>
+					      </div>
+					    </div>
+					  </div>
+					</div>		
+				</form>	
+		      </td>
 		    </tr>
 		  </tbody>
 		</table>
