@@ -116,10 +116,9 @@
 		      <td>
 		      	<form action="/gestion-jeux/edit-genre" method="post">
 					<a class="text-success" href="#" data-toggle="modal" th:data-target="'#'+editKind+${genre.id}"> <i class="fas fa-edit text-success"></i></a>
-					<a class="text-danger deleteGenre" th:href="@{/gestion-jeux/deleteGenre/{id}(id=${genre.id})}" >
+					<a class="text-danger deleteGenre" href="#" data-toggle="modal" th:data-target="'#'+deleteKind+${genre.id}">
 						<i class="fas fa-trash-alt text-danger"></i>
 					</a>
-
 
 					<div class="modal fade" th:id="editKind+${genre.id}" tabindex="-1" role="dialog" th:aria-labelledby="editKind+${genre.id}" aria-hidden="true">
 					  <div class="modal-dialog modal-dialog-scrollable" role="document">
@@ -149,6 +148,24 @@
 					  </div>
 					</div>		
 				</form>	
+
+				<div class="modal fade" th:id="deleteKind+${genre.id}" tabindex="-1" role="dialog" th:aria-labelledby="deleteKind+${genre.id}" aria-hidden="true">
+				  <div class="modal-dialog modal-dialog-scrollable" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" th:id="deleteKindLabel+${genre.id}">Suppression d'un genre</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				      <div class="modal-body" th:text="'Voulez vous vraiment supprimer le genre ( ' + ${genre.nom_genre} + ' ) ?'"></div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+				        <a type="button" class="btn btn-danger" th:href="@{/gestion-jeux/deleteGenre/{id}(id=${genre.id})}">Supprimer</a>
+				      </div>
+				    </div>
+				  </div>
+				</div>		
 		      </td>
 		    </tr>
 		  </tbody>
