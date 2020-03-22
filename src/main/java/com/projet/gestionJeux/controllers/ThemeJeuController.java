@@ -2,40 +2,53 @@ package com.projet.gestionJeux.controllers;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.projet.gestionJeux.models.ThemeJeu;
 import com.projet.gestionJeux.services.ThemeJeuService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 
 @Controller
-@RequestMapping("themes")
 public class ThemeJeuController {
 
-	@Autowired
-	private ThemeJeuService themeJeuService;
+	//@Autowired
+	private final ThemeJeuService themeJeuService;
 	
+	public ThemeJeuController(ThemeJeuService themeJeuService) {
+		this.themeJeuService = themeJeuService;
+	}
 
 	/**
-	 * La liste des thèmes
-	 * @return List<ThemeJeu>
+	 * La liste des types
+	 * @return la liste des types de jeu
 	 */
-	@GetMapping("/themes")
-	public List<ThemeJeu> getThemeJeux() {
-		return themeJeuService.getThemeJeux();
+	@GetMapping("/gestion-jeux/themes")
+	public String getThemeJeux(HttpServletRequest request, ModelMap model) {
+		List<ThemeJeu> themeJeux = themeJeuService.getThemeJeux();
+		model.put("themes", themeJeux);
+		return "Theme/GestionTheme";
 	}
 	
 	/**
 	 * Créer un thème
 	 */
-	@PostMapping("themes")
-	public void creerOuModifierTheme(ThemeJeu themeJeu) {
-		this.themeJeuService.saveOrUpdate(themeJeu);
+	@PostMapping("/gestion-jeux/ajout-theme")
+	public String creerOuModifierTheme(HttpServletRequest request, ModelMap model) {
+		String themeNom = (String) request.getParameter("nom");
+		System.out.println(themeNom);
+		ThemeJeu theme = new ThemeJeu();
+		theme.setNom_theme(themeNom);
+		this.themeJeuService.saveOrUpdate(theme);
+		
+		List<ThemeJeu> themes = themeJeuService.getThemeJeux();
+		model.put("themes", themes);
+		return "Theme/GestionTheme";
+		 
 	}
 	
 	/**

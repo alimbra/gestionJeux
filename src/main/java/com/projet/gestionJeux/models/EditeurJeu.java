@@ -9,18 +9,18 @@ import javax.persistence.*;
 public class EditeurJeu {
 
 	@Id
+	@GeneratedValue
 	@Column
 	@JsonProperty("id")
 	private int id;
 	
 	@Column
-
 	@JsonProperty("nom_editeur")
 	private String nom_editeur;
 	
-	public EditeurJeu(String nom_editeur) {
+	/*public EditeurJeu(String nom_editeur) {
 		this.nom_editeur = nom_editeur;
-	}
+	}*/
 
 	public int getId() {
 		return id;

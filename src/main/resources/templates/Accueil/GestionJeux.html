@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+</head>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" ></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" ></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" ></script>
+	<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" ></script>
+	
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css" integrity="sha256-zmfNZmXoNWBMemUOo1XUGFfc0ihGGLYdgtJS3KCr/l0=" crossorigin="anonymous" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/svg-with-js.min.css" integrity="sha256-KvRcHp28THFgp86ARBiw8Hy92AVvVzoaQ3DEJawiBME=" crossorigin="anonymous" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/js/all.min.js" integrity="sha256-iZGp5HAiwRmkbOKVYv5FUER4iXp5QbiEudkZOdwLrjw=" crossorigin="anonymous"></script>
+	<style>
+		tfoot {
+			display: table-header-group;
+		}
+	</style>
+	<title>Gestion des jeux</title>
+</head>
+<body>
+	<nav class="navbar navbar-expand-md navbar-dark bg-success" th:include="base.html"></nav>
+   	<div class="container">
+   		<h1 class="mt-5 mb-5">Gestion des jeux</h1></button>		
+    	<table class="table table-bordered table-hover" id="listeJeux">
+		  <thead class="bg-light">
+		    <tr>
+		      <th scope="col">Nom jeu</th>
+		      <th scope="col">Type</th>
+		      <th scope="col">Genre</th>
+		      <th scope="col">Thème</th>
+		      <th scope="col">Nombre joueurs minimum</th>
+		      <th scope="col">Nombre joueurs maximum</th>
+		      <th scope="col">Age minimum conseillé</th>
+		      <th scope="col">Editeur</th>
+		      <th scope="col">Note</th>
+		      <th scope="col">Actions</th>
+		    </tr>
+		  </thead>
+		  <tfoot>
+		    <tr>
+		      <th scope="col">Nom jeu</th>
+		      <th scope="col">Type</th>
+		      <th scope="col">Genre</th>
+		      <th scope="col">Thème</th>
+		      <th scope="col">Nombre joueurs minimum</th>
+		      <th scope="col">Nombre joueurs maximum</th>
+		      <th scope="col">Age minimum conseillé</th>
+		      <th scope="col">Editeur</th>
+		      <th scope="col">Note</th>
+		      <th scope="col">Actions</th>
+		    </tr>
+		  </tfoot>
+		  <tbody>
+		    <tr th:each="jeu: ${jeux}">
+		      <td th:text="${jeu.nom_jeu}"></td>
+		      <td></td>
+		      <td></td>
+		      <td></td>
+		      <td th:text="${jeu.nombre_joueurs_minimum}"></td>
+		      <td th:text="${jeu.nombre_joueurs_maximum}"></td>
+		      <td th:text="${jeu.age_minimum}"></td>
+		      <td ></td>
+		      <td th:text="${jeu.noteJeu != null} ? ${jeu.noteJeu.note} : ''" ></td>
+		      <td ></td>
+		    </tr>
+		  </tbody>
+		</table>
+   	</div>
+   	
+</body>
+
+	<script>
+	  	$(document).ready(function() {
+	  		
+	  		$('#listeJeux tfoot th').each( function () {
+	  	        var title = $(this).text();
+	  	        title = title.trim(); 
+	  	        
+	  	        if( title != 'Actions')
+	  	            $(this).html( '<input class="form-control" type="text" placeholder=" '+title+'" />' );
+	  	        else 
+	  	        	$(this).html(''); 
+	 
+	  	    });
+	  		
+		    var table = $('#listeJeux').DataTable( {
+		    	dom: 'Bfltrip', 
+		         buttons: [ { extend: 'pageLength' }],
+		    	"language": {
+		            "lengthMenu": "Affichage _MENU_ jeux par page",
+		            "zeroRecords": "Aucune donnée trouvée - désolé",
+		            "info": "Pages _PAGE_ of _PAGES_",
+		            "infoEmpty": "Aucune données de disponible",
+		            "infoFiltered": "(Filté de _MAX_ total jeux)", 
+		            "sSearch":         "Rechercher&nbsp;:",
+		        }
+		    } );
+		    
+		    
+		    table.columns().every( function () {
+		        var that = this;
+		        $( 'input', this.footer() ).on( 'keyup change', function () { 
+	                if ( that.search() !== this.value ) {
+	                	that
+	                    .search( this.value )
+	                    .draw();
+	                }
+	            } );
+		    } );
+		    
+		} );
+	
+	 </script>
+
+</html>

@@ -189,4 +189,7 @@ public class JeuService {
     }
     return - 1.0;
   }
+	public List<Jeu> findAll() {
+		return this.jeuRepository.findAll(); 
+	}
 }

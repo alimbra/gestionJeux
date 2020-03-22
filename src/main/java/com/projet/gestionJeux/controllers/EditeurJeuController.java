@@ -5,34 +5,52 @@ import com.projet.gestionJeux.services.EditeurJeuService;
 import com.projet.gestionJeux.services.JeuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
-@RequestMapping("editeurs")
 public class EditeurJeuController {
 
-	@Autowired
-	private EditeurJeuService editeurJeuService;
+	//@Autowired
+	private final EditeurJeuService editeurJeuService;
 	@Autowired
 	private JeuService jeuService;
 
+	public EditeurJeuController(EditeurJeuService editeurJeuService) {
+		this.editeurJeuService = editeurJeuService;
+	}
 
-
-	
-	@GetMapping("/editeurs")
-	public List<EditeurJeu> getEditeurJeux() {
-		return editeurJeuService.getEditeurJeux();
+	/**
+	 * La liste des types
+	 * @return La vue des éditeurs
+	 */
+	@GetMapping("/gestion-jeux/editeurs")
+	public String getEditeurJeux(HttpServletRequest request, ModelMap model) {
+		List<EditeurJeu> editeurJeux = editeurJeuService.getEditeurJeux();
+		model.put("editeurs", editeurJeux);
+		return "Editeur/GestionEditeur";
 	}
 	
 	/**
 	 * Créer un éditeur
 	 */
-	@PostMapping("editeurs")
-	public void creerOuModifierEditeur(EditeurJeu editeurJeu) {
-		this.editeurJeuService.saveOrUpdate(editeurJeu);
+	@PostMapping("/gestion-jeux/ajout-editeur")
+	public String creerOuModifierEditeur(HttpServletRequest request, ModelMap model) {
+		String editeurNom = (String) request.getParameter("nom");
+		System.out.println(editeurNom);
+		EditeurJeu editeur = new EditeurJeu();
+		editeur.setNom_editeur(editeurNom);
+		this.editeurJeuService.saveOrUpdate(editeur);
+		
+		List<EditeurJeu> editeurs = editeurJeuService.getEditeurJeux();
+		model.put("editeurs", editeurs);
+		return "Editeur/GestionEditeur";
+		 
 	}
 	
 	/**
