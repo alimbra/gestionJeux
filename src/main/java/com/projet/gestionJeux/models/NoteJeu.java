@@ -3,6 +3,7 @@ package com.projet.gestionJeux.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "note_jeu")
@@ -56,4 +57,5 @@ public class NoteJeu {
   public void setJeu(Jeu jeu) {
     this.jeu = jeu;
   }
+
 }
