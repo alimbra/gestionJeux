@@ -5,26 +5,43 @@ import com.projet.gestionJeux.services.EditeurJeuService;
 import com.projet.gestionJeux.services.JeuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.*;
 
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 @Controller
-@RequestMapping("editeurs")
 public class EditeurJeuController {
 
-	@Autowired
-	private EditeurJeuService editeurJeuService;
+	//@Autowired
+	private final EditeurJeuService editeurJeuService;
 	@Autowired
 	private JeuService jeuService;
 
+	public EditeurJeuController(EditeurJeuService editeurJeuService) {
+		this.editeurJeuService = editeurJeuService;
+	}
 
-
-	
+	/**
+	 * La liste des types
+	 * @return La vue des éditeurs
+	 */
 	@GetMapping("/editeurs")
-	public List<EditeurJeu> getEditeurJeux() {
-		return editeurJeuService.getEditeurJeux();
+	public String getEditeurJeux(HttpServletRequest request, ModelMap model) {
+		List<EditeurJeu> editeurJeux = editeurJeuService.getEditeurJeux();
+		
+		for (int i = 0; i < 20; i++) {
+			EditeurJeu editeurJeu = new EditeurJeu();
+			editeurJeu.setNom_editeur("Editeur " + i);
+			editeurJeux.add(editeurJeu);
+		}
+		
+		model.put("editeurJeux", editeurJeux);
+		
+		return "EditeursJeux";
 	}
 	
 	/**

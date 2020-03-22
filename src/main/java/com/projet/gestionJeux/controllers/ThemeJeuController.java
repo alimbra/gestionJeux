@@ -2,32 +2,44 @@ package com.projet.gestionJeux.controllers;
 
 import java.util.List;
 
+import javax.servlet.http.HttpServletRequest;
+
 import com.projet.gestionJeux.models.ThemeJeu;
 import com.projet.gestionJeux.services.ThemeJeuService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
 
 
 @Controller
-@RequestMapping("themes")
 public class ThemeJeuController {
 
-	@Autowired
-	private ThemeJeuService themeJeuService;
+	//@Autowired
+	private final ThemeJeuService themeJeuService;
 	
+	public ThemeJeuController(ThemeJeuService themeJeuService) {
+		this.themeJeuService = themeJeuService;
+	}
 
 	/**
-	 * La liste des thèmes
-	 * @return List<ThemeJeu>
+	 * La liste des types
+	 * @return la liste des types de jeu
 	 */
 	@GetMapping("/themes")
-	public List<ThemeJeu> getThemeJeux() {
-		return themeJeuService.getThemeJeux();
+	public String getThemeJeux(HttpServletRequest request, ModelMap model) {
+		List<ThemeJeu> themeJeux = themeJeuService.getThemeJeux();
+		
+		for (int i = 0; i < 20; i++) {
+			ThemeJeu themeJeu = new ThemeJeu();
+			themeJeu.setNom_theme("Theme " + i);
+			themeJeux.add(themeJeu);
+		}
+		
+		model.put("themeJeux", themeJeux);
+		
+		return "ThemesJeux";
 	}
 	
 	/**
