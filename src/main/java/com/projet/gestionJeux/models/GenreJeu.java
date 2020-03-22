@@ -9,6 +9,7 @@ import javax.persistence.*;
 public class GenreJeu {
   @Id
   @Column
+  @GeneratedValue
   @JsonProperty("id")
   private int id;
 
