@@ -3,13 +3,15 @@ package com.projet.gestionJeux.models;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "note_jeu")
 public class NoteJeu {
 
   @Id
-  @Column
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(columnDefinition = "serial")
   @JsonProperty("id")
   private int id;
 
@@ -22,6 +24,7 @@ public class NoteJeu {
   private String nom_testeur;
 
   @OneToOne(fetch = FetchType.EAGER, cascade = CascadeType.ALL, orphanRemoval = true)
+
   @JoinColumn(name = "id_jeu", referencedColumnName = "id")
   private Jeu jeu;
   
@@ -61,4 +64,5 @@ public class NoteJeu {
   public void setJeu(Jeu jeu) {
     this.jeu = jeu;
   }
+
 }

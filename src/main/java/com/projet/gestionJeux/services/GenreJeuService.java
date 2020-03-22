@@ -44,8 +44,8 @@ public class GenreJeuService {
    * Sauvegarder ou mettre à jour un genreJeu.
    * @param genreJeu une entite de type GenreJeu.
    */
-  public void saveOrUpdate(GenreJeu genreJeu) {
-    genreJeuRepository.save(genreJeu);
+  public GenreJeu saveOrUpdate(GenreJeu genreJeu) {
+    return genreJeuRepository.save(genreJeu);
   }
 
   /**
@@ -56,7 +56,9 @@ public class GenreJeuService {
   public void deleteGenreJeu(int id) {
     genreJeuRepository.deleteById(id);
   }
-
+  public boolean existeGenreJei(int id){
+    return genreJeuRepository.existsById(id);
+  }
 	public GenreJeu findById(int genreId) {
 		return this.genreJeuRepository.findById(genreId); 	
 	}

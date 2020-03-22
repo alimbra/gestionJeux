@@ -25,7 +25,52 @@
 <body>
 	<nav class="navbar navbar-expand-md navbar-dark bg-success" th:include="base.html"></nav>
    	<div class="container">
-   		<h1 class="mt-5 mb-5">Gestion des genres</h1></button>
+
+
+		<div th:if="${addSucess != null && addSucess }" class="alert alert-success alert-dismissible fade show" role="alert">
+			<strong>ajout du genre est effectuée !</strong>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+
+		<div th:if="${addSucess != null && !addSucess }" class="alert alert-danger alert-dismissible fade show" role="alert">
+			<strong>erreur d´ajout du genre !</strong>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+
+		<div th:if="${updateSucess != null && updateSucess }" class="alert alert-success alert-dismissible fade show" role="alert">
+			<strong>modification du genre est effectuée !</strong>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+
+		<div th:if="${updateSucess != null && !updateSucess }" class="alert alert-danger alert-dismissible fade show" role="alert">
+			<strong>erreur dans la modification !</strong>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+
+
+		<div th:if="${deleteSucess != null && deleteSucess }" class="alert alert-success alert-dismissible fade show" role="alert">
+			<strong>Suppression du genre est effectuée !</strong>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+
+		<div th:if="${deleteSucess != null && !deleteSucess }" class="alert alert-danger alert-dismissible fade show" role="alert">
+			<strong>erreur dans la Suppression !</strong> ce genre de jeu n´existe pas
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+
+		<h1 class="mt-5 mb-5">Gestion des genres</h1></button>
    		<form action="/gestion-jeux/ajout-genre" method="post">
 	   		<a class="btn btn-success mb-3 text-white" data-toggle="modal" data-target="#addKindModalScrollable">Ajout d'un genre</a>
 			<div class="modal fade" id="addKindModalScrollable" tabindex="-1" role="dialog" aria-labelledby="addKindModalScrollableTitle" aria-hidden="true">
@@ -70,7 +115,12 @@
 		      <td th:text="${genre.nom_genre}"></td>
 		      <td>
 		      	<form action="/gestion-jeux/edit-genre" method="post">
-			   		<a class="text-success" href="#" data-toggle="modal" th:data-target="'#'+editKind+${genre.id}"> <i class="fas fa-edit text-success"></i></a>
+					<a class="text-success" href="#" data-toggle="modal" th:data-target="'#'+editKind+${genre.id}"> <i class="fas fa-edit text-success"></i></a>
+					<a class="text-danger deleteGenre" th:href="@{/gestion-jeux/deleteGenre/{id}(id=${genre.id})}" >
+						<i class="fas fa-trash-alt text-danger"></i>
+					</a>
+
+
 					<div class="modal fade" th:id="editKind+${genre.id}" tabindex="-1" role="dialog" th:aria-labelledby="editKind+${genre.id}" aria-hidden="true">
 					  <div class="modal-dialog modal-dialog-scrollable" role="document">
 					    <div class="modal-content">

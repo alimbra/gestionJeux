@@ -11,6 +11,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.view.RedirectView;
 
@@ -38,12 +39,19 @@ public class GenreJeuController {
 	 */
 	@PostMapping("/gestion-jeux/ajout-genre")
 	public String creerOuModifierGenre(HttpServletRequest request, ModelMap model) {
-		
 		String genreNom = (String) request.getParameter("nom");
-		System.out.println(genreNom);
 		GenreJeu genre = new GenreJeu();
 		genre.setNom_genre(genreNom);
-		this.genreJeuService.saveOrUpdate(genre);
+
+		//rajout et recupere le genre du jeu inséré
+		GenreJeu genreJeu = this.genreJeuService.saveOrUpdate(genre);
+
+    if (genreJeuService.existeGenreJei(genreJeu.getId())){
+      model.put("addSucess",true);
+    }
+    else{
+      model.put("addSucess",false);
+    }
 		
 		List<GenreJeu> genres = genreJeuService.getGenreJeux();
 		model.put("genres", genres);
@@ -59,9 +67,17 @@ public class GenreJeuController {
 		int genreId = Integer.parseInt(genre_id);
 		GenreJeu genre = this.genreJeuService.findById(genreId);
 		genre.setNom_genre(genreNom); 
-		this.genreJeuService.saveOrUpdate(genre);
-		
-		
+
+    GenreJeu genreJeu = this.genreJeuService.saveOrUpdate(genre);
+
+    if (genreJeuService.existeGenreJei(genreJeu.getId())){
+      model.put("updateSucess",true);
+    }
+    else{
+      model.put("updateSucess",false);
+    }
+
+
 		List<GenreJeu> genres = genreJeuService.getGenreJeux();
 		model.put("genres", genres);
 		return "Genre/GestionGenre";
@@ -72,9 +88,21 @@ public class GenreJeuController {
 	/**
 	 * Supprimer un genre
 	 */
-	@DeleteMapping("/genres/{genreId}")
-	public void supprimerGenre(int id) {
-		this.genreJeuService.deleteGenreJeu(id);
+	@GetMapping("/gestion-jeux/deleteGenre/{id}")
+	public String supprimerGenre(@PathVariable("id") int id, ModelMap model)
+	{
+	  if (genreJeuService.existeGenreJei(id)) {
+      this.genreJeuService.deleteGenreJeu(id);
+      model.put("deleteSucess",true);
+    }
+	  else{
+      model.put("deleteSucess",false);
+
+    }
+
+		List<GenreJeu> genres = genreJeuService.getGenreJeux();
+		model.put("genres", genres);
+    return "Genre/GestionGenre";
 	}
 
 }

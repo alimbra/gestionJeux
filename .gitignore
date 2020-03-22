@@ -12,6 +12,7 @@ target/
 .settings
 .springBeans
 .sts4-cache
+
 .metadata
 bin/
 src/main/resources/application.properties
@@ -108,4 +109,5 @@ local.properties
 build/
 
 ### VS Code ###
+
 .vscode/

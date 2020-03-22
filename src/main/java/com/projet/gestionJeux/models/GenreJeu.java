@@ -8,8 +8,8 @@ import javax.persistence.*;
 @Table(name = "genre_jeu")
 public class GenreJeu {
   @Id
-  @Column
-  @GeneratedValue
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(columnDefinition = "serial")
   @JsonProperty("id")
   private int id;
 

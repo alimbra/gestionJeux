@@ -9,8 +9,8 @@ import javax.persistence.*;
 public class TypeJeu {
 
   @Id
-  @GeneratedValue
-  @Column
+  @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(columnDefinition = "serial")
   @JsonProperty("id")
   private int id;
 
