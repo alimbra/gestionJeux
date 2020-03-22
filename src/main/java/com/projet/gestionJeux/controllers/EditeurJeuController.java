@@ -45,7 +45,14 @@ public class EditeurJeuController {
 		System.out.println(editeurNom);
 		EditeurJeu editeur = new EditeurJeu();
 		editeur.setNom_editeur(editeurNom);
-		this.editeurJeuService.saveOrUpdate(editeur);
+		EditeurJeu editeurJeu = this.editeurJeuService.saveOrUpdate(editeur);
+		
+		if (editeurJeuService.existeEditeurJeu(editeurJeu.getId())){
+			model.put("addSucess",true);
+		}
+		else{
+			model.put("addSucess",false);
+		}
 		
 		List<EditeurJeu> editeurs = editeurJeuService.getEditeurJeux();
 		model.put("editeurs", editeurs);
@@ -61,8 +68,14 @@ public class EditeurJeuController {
 		int editeurId = Integer.parseInt(editeur_id);
 		EditeurJeu editeur = this.editeurJeuService.findById(editeurId);
 		editeur.setNom_editeur(editeurNom); 
-		this.editeurJeuService.saveOrUpdate(editeur);
+		EditeurJeu editeurJeu = this.editeurJeuService.saveOrUpdate(editeur);
 		
+		if (editeurJeuService.existeEditeurJeu(editeurJeu.getId())){
+			model.put("updateSucess",true);
+		}
+		else{
+			model.put("updateSucess",false);
+		}
 		
 		List<EditeurJeu> editeurs = editeurJeuService.getEditeurJeux();
 		model.put("editeurs", editeurs);
@@ -74,13 +87,22 @@ public class EditeurJeuController {
 	 * Supprimer un éditeur
 	 * Un éditeur supprimé, supprimera tous les jeux associés à ce éditeur
 	 */
-	@DeleteMapping("/editeurs/{editeurId}")
-	public void supprimerEditeur(int id) {
-		//Gérer d'abord la suppression des jeux associés
-		this.jeuService.deleteJeuxByIdEditeur(id);
-		
-		//Supprimer l'éditeur
-		this.editeurJeuService.deleteEditeurJeu(id);
+	@GetMapping("/gestion-jeux/deleteEditeur/{id}")
+	public String supprimerEditeur(@PathVariable("id") int id, ModelMap model)
+	{
+	  if (editeurJeuService.existeEditeurJeu(id)) {
+		  //Gérer d'abord la suppression des jeux associés
+		  //this.jeuService.deleteJeuxByIdEditeur(id);
+	      this.editeurJeuService.deleteEditeurJeu(id);
+	      model.put("deleteSucess",true);
+      }
+	  else{
+		  model.put("deleteSucess",false);
+	  }
+	  
+	  List<EditeurJeu> editeurs = editeurJeuService.getEditeurJeux();
+	  model.put("editeurs", editeurs);
+	  return "Editeur/GestionEditeur";
 	}
 	
 }

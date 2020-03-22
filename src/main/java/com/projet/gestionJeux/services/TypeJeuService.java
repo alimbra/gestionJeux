@@ -1,6 +1,5 @@
 package com.projet.gestionJeux.services;
 
-import com.projet.gestionJeux.models.GenreJeu;
 import com.projet.gestionJeux.models.TypeJeu;
 import com.projet.gestionJeux.repositories.TypeJeuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class TypeJeuService {
@@ -40,8 +38,8 @@ public class TypeJeuService {
    * Sauvegarder ou mettre à jour un typeJeu.
    * @param typeJeu une entite de type typeJeu.
    */
-  public void saveOrUpdate(TypeJeu typeJeu) {
-    typeJeuRepository.save(typeJeu);
+  public TypeJeu saveOrUpdate(TypeJeu typeJeu) {
+    return typeJeuRepository.save(typeJeu);
   }
 
   /**
@@ -51,5 +49,9 @@ public class TypeJeuService {
    */
   public void deleteTypeJeu(int id) {
     typeJeuRepository.deleteById(id);
+  }
+  
+  public boolean existeTypeJeu(int id){
+	  return typeJeuRepository.existsById(id);
   }
 }

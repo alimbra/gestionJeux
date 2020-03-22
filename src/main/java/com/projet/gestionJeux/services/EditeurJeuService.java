@@ -38,8 +38,8 @@ public class EditeurJeuService {
    * Sauvegarder ou mettre à jour un editeurJeu.
    * @param editjeu une entite de type editeurJeu.
    */
-  public void saveOrUpdate(EditeurJeu editjeu) {
-    editeurJeuRepository.save(editjeu);
+  public EditeurJeu saveOrUpdate(EditeurJeu editjeu) {
+    return editeurJeuRepository.save(editjeu);
   }
 
   //A voir
@@ -50,5 +50,9 @@ public class EditeurJeuService {
    */
   public void deleteEditeurJeu(int id) {
     editeurJeuRepository.deleteById(id);
+  }
+  
+  public boolean existeEditeurJeu(int id){
+	  return editeurJeuRepository.existsById(id);
   }
 }

@@ -25,6 +25,50 @@
 <body>
 	<nav class="navbar navbar-expand-md navbar-dark bg-success" th:include="base.html"></nav>
    	<div class="container">
+   	
+   		<div th:if="${addSucess != null && addSucess }" class="alert alert-success alert-dismissible fade show" role="alert">
+			<strong>l'ajout du thème est effectué avec succès !</strong>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+
+		<div th:if="${addSucess != null && !addSucess }" class="alert alert-danger alert-dismissible fade show" role="alert">
+			<strong>erreur d´ajout du thème !</strong>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+
+		<div th:if="${updateSucess != null && updateSucess }" class="alert alert-success alert-dismissible fade show" role="alert">
+			<strong>La modification du thème est effectuée avec succès !</strong>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+
+		<div th:if="${updateSucess != null && !updateSucess }" class="alert alert-danger alert-dismissible fade show" role="alert">
+			<strong>erreur à la modificatiion du thème !</strong>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+
+
+		<div th:if="${deleteSucess != null && deleteSucess }" class="alert alert-success alert-dismissible fade show" role="alert">
+			<strong>La suppression du thème est effectuée avec succès!</strong>
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+
+		<div th:if="${deleteSucess != null && !deleteSucess }" class="alert alert-danger alert-dismissible fade show" role="alert">
+			<strong>erreur à la suppession du thème !</strong> ce thème de jeu n´existe pas
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+		</div>
+   	
    		<h1 class="mt-5 mb-5">Gestion des thèmes</h1></button>
    		<form action="/gestion-jeux/ajout-theme" method="post">
 	   		<a class="btn btn-success mb-3 text-white" data-toggle="modal" data-target="#addKindModalScrollable">Ajout d'un thème</a>
@@ -71,6 +115,10 @@
 		      <td>
 		      	<form action="/gestion-jeux/edit-theme" method="post">
 			   		<a class="text-success" href="#" data-toggle="modal" th:data-target="'#'+editKind+${theme.id}"> <i class="fas fa-edit text-success"></i></a>
+					<a class="text-danger deleteTheme" th:href="@{/gestion-jeux/deleteTheme/{id}(id=${theme.id})}" >
+						<i class="fas fa-trash-alt text-danger"></i>
+					</a>
+					
 					<div class="modal fade" th:id="editKind+${theme.id}" tabindex="-1" role="dialog" th:aria-labelledby="editKind+${theme.id}" aria-hidden="true">
 					  <div class="modal-dialog modal-dialog-scrollable" role="document">
 					    <div class="modal-content">

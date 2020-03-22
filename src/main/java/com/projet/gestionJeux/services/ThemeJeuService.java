@@ -1,6 +1,5 @@
 package com.projet.gestionJeux.services;
 
-import com.projet.gestionJeux.models.GenreJeu;
 import com.projet.gestionJeux.models.ThemeJeu;
 import com.projet.gestionJeux.repositories.ThemeJeuRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +7,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 public class ThemeJeuService {
@@ -41,8 +39,8 @@ public class ThemeJeuService {
    * Sauvegarder ou mettre à jour un themeJeu.
    * @param themeJeu une entite de type themeJeu.
    */
-  public void saveOrUpdate(ThemeJeu themeJeu) {
-    themeJeuRepository.save(themeJeu);
+  public ThemeJeu saveOrUpdate(ThemeJeu themeJeu) {
+    return themeJeuRepository.save(themeJeu);
   }
 
   /**
@@ -52,6 +50,10 @@ public class ThemeJeuService {
    */
   public void deleteThemeJeu(int id) {
     themeJeuRepository.deleteById(id);
+  }
+  
+  public boolean existeThemeJeu(int id){
+	  return themeJeuRepository.existsById(id);
   }
 
 

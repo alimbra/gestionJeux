@@ -4,13 +4,12 @@ import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
 
-import com.projet.gestionJeux.models.GenreJeu;
 import com.projet.gestionJeux.models.TypeJeu;
 import com.projet.gestionJeux.services.TypeJeuService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
-import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
 
@@ -45,7 +44,14 @@ public class TypeJeuController {
 		System.out.println(typeNom);
 		TypeJeu type = new TypeJeu();
 		type.setNom_type(typeNom);
-		this.typeJeuService.saveOrUpdate(type);
+		TypeJeu typeJeu = this.typeJeuService.saveOrUpdate(type);
+		
+		if (typeJeuService.existeTypeJeu(typeJeu.getId())){
+			model.put("addSucess",true);
+		}
+		else{
+			model.put("addSucess",false);
+		}
 		
 		List<TypeJeu> types = typeJeuService.getTypeJeux();
 		model.put("types", types);
@@ -61,8 +67,14 @@ public class TypeJeuController {
 		int typeId = Integer.parseInt(type_id);
 		TypeJeu type = this.typeJeuService.findById(typeId);
 		type.setNom_type(typeNom); 
-		this.typeJeuService.saveOrUpdate(type);
+		TypeJeu typeJeu = this.typeJeuService.saveOrUpdate(type);
 		
+		if (typeJeuService.existeTypeJeu(typeJeu.getId())){
+			model.put("updateSucess",true);
+		}
+		else{
+			model.put("updateSucess",false);
+		}
 		
 		List<TypeJeu> types = typeJeuService.getTypeJeux();
 		model.put("types", types);
@@ -73,8 +85,19 @@ public class TypeJeuController {
 	/**
 	 * Supprimer un type
 	 */
-	@DeleteMapping("/types/{typeId}")
-	public void supprimerType(int id) {
-		this.typeJeuService.deleteTypeJeu(id);
+	@GetMapping("/gestion-jeux/deleteType/{id}")
+	public String supprimerType(@PathVariable("id") int id, ModelMap model)
+	{
+	  if (typeJeuService.existeTypeJeu(id)) {
+	      this.typeJeuService.deleteTypeJeu(id);
+	      model.put("deleteSucess",true);
+      }
+	  else{
+		  model.put("deleteSucess",false);
+	  }
+	  
+	  List<TypeJeu> types = typeJeuService.getTypeJeux();
+	  model.put("types", types);
+	  return "Type/GestionType";
 	}
 }
