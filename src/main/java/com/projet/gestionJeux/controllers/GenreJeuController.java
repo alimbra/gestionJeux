@@ -38,6 +38,7 @@ public class GenreJeuController {
 	 */
 	@PostMapping("/gestion-jeux/ajout-genre")
 	public String creerOuModifierGenre(HttpServletRequest request, ModelMap model) {
+		
 		String genreNom = (String) request.getParameter("nom");
 		System.out.println(genreNom);
 		GenreJeu genre = new GenreJeu();
@@ -49,6 +50,24 @@ public class GenreJeuController {
 		return "Genre/GestionGenre";
 		 
 	}
+	
+	@PostMapping("/gestion-jeux/edit-genre")
+	public String editGenre(HttpServletRequest request, ModelMap model) {
+		String genre_id = request.getParameter("editKind_id");
+		String genreNom = (String) request.getParameter("nom");
+		System.out.println(genreNom);
+		int genreId = Integer.parseInt(genre_id);
+		GenreJeu genre = this.genreJeuService.findById(genreId);
+		genre.setNom_genre(genreNom); 
+		this.genreJeuService.saveOrUpdate(genre);
+		
+		
+		List<GenreJeu> genres = genreJeuService.getGenreJeux();
+		model.put("genres", genres);
+		return "Genre/GestionGenre";
+		 
+	}
+	
 	
 	/**
 	 * Supprimer un genre

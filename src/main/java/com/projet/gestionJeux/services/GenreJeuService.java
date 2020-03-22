@@ -32,13 +32,13 @@ public class GenreJeuService {
    * @param id  de genre jeu.
    * @return une entite de type GenreJeu.
    */
-  public GenreJeu getGenreById(int id) {
+ /* public GenreJeu getGenreById(int id) {
     Optional<GenreJeu> optionalGenre = genreJeuRepository.findById(id);
     if (optionalGenre.isPresent()) {
       return optionalGenre.get();
     }
     return null;
-  }
+  }*/
 
   /**
    * Sauvegarder ou mettre à jour un genreJeu.
@@ -56,4 +56,9 @@ public class GenreJeuService {
   public void deleteGenreJeu(int id) {
     genreJeuRepository.deleteById(id);
   }
+
+	public GenreJeu findById(int genreId) {
+		return this.genreJeuRepository.findById(genreId); 	
+	}
+
 }
