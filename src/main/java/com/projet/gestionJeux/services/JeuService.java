@@ -41,6 +41,14 @@ public class JeuService {
   }
 
 
+  public Jeu findById(int id){
+    return jeuRepository.findById(id);
+  }
+  public Jeu saveOrUpdate(Jeu jeu){
+    return jeuRepository.save(jeu);
+  }
+
+
   /**
    * fait des comparaison par rapport au nom et au operateur
    * @param noteJeu
@@ -66,8 +74,6 @@ public class JeuService {
     boolean resultNom = false;
       resultNom = resultNom || noteJeu.getNom_testeur()==nomTesteur;
     return resultNum && resultNom;
-
-
   }
 
   /**
@@ -190,6 +196,10 @@ public class JeuService {
     return - 1.0;
   }
 	public List<Jeu> findAll() {
-		return this.jeuRepository.findAll(); 
+		return this.jeuRepository.findAll();
 	}
+
+  public void deleteJeuById(int id) {
+    jeuRepository.deleteById(id);
+  }
 }
