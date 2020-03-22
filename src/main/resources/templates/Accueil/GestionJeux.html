@@ -146,8 +146,10 @@
 				  <form action="/acceuil/modifie-jeu" method="post">
 					  <a class="text-success" href="#" data-toggle="modal" th:data-target="'#'+editKind+${jeu.id}">
 						  <i class="fas fa-edit text-success"></i></a>
-					  <a class="text-danger deleteJeu" th:href="@{/acceuil/supprimerJeu/{id}(id=${jeu.id})}" >
-						  <i class="fas fa-trash-alt text-danger"></i>
+					  
+					  
+					  <a class="text-danger deleteJeu" href="#" data-toggle="modal" th:data-target="'#'+deleteKind+${jeu.id}">
+						<i class="fas fa-trash-alt text-danger"></i>
 					  </a>
 
 
@@ -231,7 +233,25 @@
 						  </div>
 					  </div>
 				  </form>
-
+				  
+				  <div class="modal fade" th:id="deleteKind+${jeu.id}" tabindex="-1" role="dialog" th:aria-labelledby="deleteKind+${jeu.id}" aria-hidden="true">
+				  <div class="modal-dialog modal-dialog-scrollable" role="document">
+				    <div class="modal-content">
+				      <div class="modal-header">
+				        <h5 class="modal-title" th:id="deleteKindLabel+${jeu.id}">Suppression d'un jeu</h5>
+				        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+				          <span aria-hidden="true">&times;</span>
+				        </button>
+				      </div>
+				      <div class="modal-body" th:text="'Voulez vous vraiment supprimer ce jeu ( ' + ${jeu.nom_jeu} + ' ) ?'"></div>
+				      <div class="modal-footer">
+				        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+				        <a type="button" class="btn btn-danger" th:href="@{/acceuil/supprimerJeu/{id}(id=${jeu.id})}">Supprimer</a>
+				      </div>
+				    </div>
+				  </div>
+				</div>
+				  
 			  </td>
 		    </tr>
 		  </tbody>
