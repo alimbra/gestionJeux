@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org" >
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" ></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" ></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" ></script>
+	<script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js" ></script>
+	
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" >
+	<link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/all.min.css" integrity="sha256-zmfNZmXoNWBMemUOo1XUGFfc0ihGGLYdgtJS3KCr/l0=" crossorigin="anonymous" />
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/css/svg-with-js.min.css" integrity="sha256-KvRcHp28THFgp86ARBiw8Hy92AVvVzoaQ3DEJawiBME=" crossorigin="anonymous" />
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.10.2/js/all.min.js" integrity="sha256-iZGp5HAiwRmkbOKVYv5FUER4iXp5QbiEudkZOdwLrjw=" crossorigin="anonymous"></script>
+	<style>
+		tfoot {
+			display: table-header-group;
+		}
+	</style>
+	<title>Gestion des jeux</title>
+</head>
+<body>
+	<nav class="navbar navbar-expand-md navbar-dark bg-success" th:include="base.html"></nav>
+   	<div class="container">
+   		<h1 class="mt-5 mb-5">Gestion des éditeurs</h1></button>
+   		<form action="/gestion-jeux/ajout-editeur" method="post">
+	   		<a class="btn btn-success mb-3 text-white" data-toggle="modal" data-target="#addKindModalScrollable">Ajout d'un éditeur</a>
+			<div class="modal fade" id="addKindModalScrollable" tabindex="-1" role="dialog" aria-labelledby="addKindModalScrollableTitle" aria-hidden="true">
+			  <div class="modal-dialog modal-dialog-scrollable" role="document">
+			    <div class="modal-content">
+			      <div class="modal-header">
+			        <h5 class="modal-title" id="addKindModalScrollableTitle">Ajout d'un éditeur</h5>
+			        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+			          <span aria-hidden="true">&times;</span>
+			        </button>
+			      </div>
+			      <div class="modal-body">
+					  <div class="form-group">
+					    <label for="addKind_nom">Nom</label>
+					    <input type="text" class="form-control" id="addKind_nom" name="nom">
+					    <small id="addKind_nom" class="form-text text-muted">Ce nom doit être unique.</small>
+					  </div>
+			      </div>
+			      <div class="modal-footer">
+			        <button type="button" class="btn btn-secondary" data-dismiss="modal">Fermer</button>
+			        <button type="submit" class="btn btn-success">Enregistrer</button>
+			      </div>
+			    </div>
+			  </div>
+			</div>		
+		</form>	
+    	<table class="table table-bordered table-hover" id="listeEditeurs">
+		  <thead class="bg-light">
+		    <tr>
+		      <th scope="col">Editeur</th>
+		      <th scope="col">Actions</th>
+		    </tr>
+		  </thead>
+		  <tfoot>
+		    <tr>
+		      <th scope="col">Editeur</th>
+		      <th scope="col">Actions</th>
+		    </tr>
+		  </tfoot>
+		  <tbody>
+		    <tr th:each="editeur: ${editeurs}">
+		      <td th:text="${editeur.nom_editeur}"></td>
+		      <td class="text-center"><i class="fas fa-edit text-success"></i></td>
+		    </tr>
+		  </tbody>
+		</table>
+   	</div>
+   	
+</body>
+
+	<script>
+	  	$(document).ready(function() {
+	  		
+	  		$('#listeEditeurs tfoot th').each( function () {
+	  	        var title = $(this).text();
+	  	        title = title.trim(); 
+	  	        
+	  	        if( title != 'Actions')
+	  	            $(this).html( '<input class="form-control" type="text" placeholder=" '+title+'" />' );
+	  	        else 
+	  	        	$(this).html(''); 
+	 
+	  	    });
+	  		
+		    var table = $('#listeEditeurs').DataTable( {
+		    	dom: 'Bfltrip', 
+		         buttons: [ { extend: 'pageLength' }],
+		    	"language": {
+		            "lengthMenu": "Affichage _MENU_ éditeurs par page",
+		            "zeroRecords": "Aucune donnée trouvée - désolé",
+		            "info": "Pages _PAGE_ of _PAGES_",
+		            "infoEmpty": "Aucune données de disponible",
+		            "infoFiltered": "(Filté de _MAX_ total éditeurs)", 
+		            "sSearch":         "Rechercher&nbsp;:",
+		        }
+		    } );
+		    
+		    
+		    table.columns().every( function () {
+		        var that = this;
+		        $( 'input', this.footer() ).on( 'keyup change', function () { 
+	                if ( that.search() !== this.value ) {
+	                	that
+	                    .search( this.value )
+	                    .draw();
+	                }
+	            } );
+		    } );
+		    
+		} );
+	
+	 </script>
+
+</html>
