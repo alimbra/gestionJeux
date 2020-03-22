@@ -27,27 +27,28 @@ public class ThemeJeuController {
 	 * La liste des types
 	 * @return la liste des types de jeu
 	 */
-	@GetMapping("/themes")
+	@GetMapping("/gestion-jeux/themes")
 	public String getThemeJeux(HttpServletRequest request, ModelMap model) {
 		List<ThemeJeu> themeJeux = themeJeuService.getThemeJeux();
-		
-		for (int i = 0; i < 20; i++) {
-			ThemeJeu themeJeu = new ThemeJeu();
-			themeJeu.setNom_theme("Theme " + i);
-			themeJeux.add(themeJeu);
-		}
-		
-		model.put("themeJeux", themeJeux);
-		
-		return "ThemesJeux";
+		model.put("themes", themeJeux);
+		return "Theme/GestionTheme";
 	}
 	
 	/**
 	 * Créer un thème
 	 */
-	@PostMapping("themes")
-	public void creerOuModifierTheme(ThemeJeu themeJeu) {
-		this.themeJeuService.saveOrUpdate(themeJeu);
+	@PostMapping("/gestion-jeux/ajout-theme")
+	public String creerOuModifierTheme(HttpServletRequest request, ModelMap model) {
+		String themeNom = (String) request.getParameter("nom");
+		System.out.println(themeNom);
+		ThemeJeu theme = new ThemeJeu();
+		theme.setNom_theme(themeNom);
+		this.themeJeuService.saveOrUpdate(theme);
+		
+		List<ThemeJeu> themes = themeJeuService.getThemeJeux();
+		model.put("themes", themes);
+		return "Theme/GestionTheme";
+		 
 	}
 	
 	/**
